@@ -71,5 +71,9 @@ public class Conta {
         }
     }
 
+    public void alterarpin(int novopin) {
+        Cartão.pin = novopin;
+    }
+
 
 }
