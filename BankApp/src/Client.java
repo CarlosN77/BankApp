@@ -3,16 +3,19 @@ public class Client {
     public int nif;
     public int senha;
     public String nome;
+    public Conta conta;
     public int datadenascimento;
     public int telefone;
     public int telemovel;
     public String email;
     public String profissao;
 
-    public Client(int nif, int senha, String nome, int datadenascimento, int telefone, int telemovel, String email, String profissao) {
+
+    public Client(int nif, int senha, String nome,Conta conta, int datadenascimento, int telefone, int telemovel, String email, String profissao) {
         this.nif = nif;
         this.senha = senha;
         this.nome = nome;
+        this.conta = conta;
         this.datadenascimento = datadenascimento;
         this.telefone = telefone;
         this.telemovel = telemovel;
@@ -38,6 +41,10 @@ public class Client {
 
     public String getNome() {
         return nome;
+    }
+
+    public Conta getConta() {
+        return conta;
     }
 
     public void setNome(String nome) {

@@ -15,7 +15,7 @@ public class Conta {
 
 
 
-    public int getNumerodeconta() {
+    public int getNumerodeconta(int accountNum) {
         return numerodeconta;
     }
 
@@ -76,4 +76,6 @@ public class Conta {
     }
 
 
+    public void transferir(int accountToTransfer, double amount) {
+    }
 }
