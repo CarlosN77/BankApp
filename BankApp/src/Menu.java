@@ -1,10 +1,12 @@
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
 
-
+    static Database database = Database.getInstance();
     static Conta conta2 = new Conta(2, "Joao", "andre", 50);
 
     public static void start() {
@@ -33,19 +35,61 @@ public class Menu {
 
     public static void logIn() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter nif:");
-        int nif = sc.nextInt();
-        System.out.println("Enter password:");
-        int password = sc.nextInt();
+        System.out.println("1. Log in");
+        System.out.println("2. Sign up");
+        System.out.print("Escolha uma opção: ");
+        int option = sc.nextInt();
 
-        for (Client c : Database.getClients()) {
-            if (c.getNif() == nif && c.getSenha() == password) {
-                System.out.println("Welcome, " + c.getNome());
-                optionsAfterLogin(c);
-            }
+        switch (option) {
+            case 1:
+                System.out.println("Insira o NIF:");
+                int nif = sc.nextInt();
+                System.out.println("Insira a senha:");
+                int password = sc.nextInt();
+
+                for (Client c : database.getClient()) {
+                    if (c.getNif() == nif && c.getSenha() == password) {
+                        System.out.println("Bem vindo, " + c.getPrimeironome() + c.getSegundonome());
+                        optionsAfterLogin(c);
+                    }
+                    System.out.println("Passord ou NIF invalido");
+                }
+            case 2:
+                System.out.println("Insira o primeiro nome:");
+                String primeironome = sc.next();
+                System.out.println("Insira o segundo nome:");
+                String segundonome = sc.next();
+                System.out.println("Insira o seu NIF:");
+                nif = sc.nextInt();
+                System.out.println("Escolha uma password:");
+                int senha = sc.nextInt();
+                System.out.println("Qual a sua data de nascimento (YYYY-MM-DD): ");
+                String dataNascimentoString = sc.next();
+                String[] dataNascimentoArray = dataNascimentoString.split("-");
+                int ano = Integer.parseInt(dataNascimentoArray[0]);
+                int mes = Integer.parseInt(dataNascimentoArray[1]);
+                int dia = Integer.parseInt(dataNascimentoArray[2]);
+                LocalDate dataNascimento = LocalDate.of(ano, mes, dia);
+                System.out.println("Insira o seu numero de telefone:");
+                int telefone = sc.nextInt();
+                System.out.println("Insira o seu numero de telefone:");
+                int telemovel = sc.nextInt();
+                System.out.println("Insira o seu email:");
+                String email = sc.next();
+                System.out.println("Qual a sua profissão:");
+                String profissao = sc.next();
+                // code to create account
+                Client newClient = new Client(nif,senha,primeironome,segundonome,dataNascimento,telefone,telemovel,email,profissao);
+                database.addClient(newClient);
+                System.out.println("Conta criada com sucesso!");
+                break;
+            default:
+                System.out.println("Escolha uma opção valida.");
+                break;
         }
-        System.out.println("Invalid nif or password");
     }
+
+
 
 
     public static void optionsAfterLogin(Client loggedInClient) {

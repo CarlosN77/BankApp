@@ -1,26 +1,37 @@
+import java.time.LocalDate;
+
 public class Client {
 
-    public int nif;
-    public int senha;
-    public String nome;
-    public Conta conta;
-    public int datadenascimento;
-    public int telefone;
-    public int telemovel;
-    public String email;
-    public String profissao;
+    private int nif;
+    private int senha;
+    private String primeironome;
+    private String segundonome;
+    private Conta conta;
+    private LocalDate datadenascimento;
+    private int telefone;
+    private int telemovel;
+    private String email;
+    private String profissao;
 
 
-    public Client(int nif, int senha, String nome,Conta conta, int datadenascimento, int telefone, int telemovel, String email, String profissao) {
+    public Client(int nif, int senha, String primeironome,String segundonome,Conta conta, LocalDate datadenascimento, int telefone, int telemovel, String email, String profissao) {
         this.nif = nif;
         this.senha = senha;
-        this.nome = nome;
+        this.primeironome = primeironome;
+        this.segundonome = segundonome;
         this.conta = conta;
         this.datadenascimento = datadenascimento;
         this.telefone = telefone;
         this.telemovel = telemovel;
         this.email = email;
         this.profissao = profissao;
+    }
+
+
+    public Client(int nif, int senha, String primeironome, String segundonome, LocalDate datadenascimento, int telefone, int telemovel, String email, String profissao) {
+    }
+
+    public Client(int nif, int senha, String carlos, String neves, Conta conta1, int i, int telefone, int telemovel, String email, String homemDaObra) {
     }
 
     public int getNif() {
@@ -39,23 +50,31 @@ public class Client {
         this.senha = senha;
     }
 
-    public String getNome() {
-        return nome;
+    public String getPrimeironome() {
+        return primeironome;
+    }
+
+    public String getSegundonome() {
+        return segundonome;
     }
 
     public Conta getConta() {
         return conta;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setPrimeironome(String primeironome) {
+        this.primeironome = primeironome;
     }
 
-    public int getDatadenascimento() {
+    public void setSegundonome(String segundonome) {
+        this.segundonome = segundonome;
+    }
+
+    public LocalDate getDatadenascimento() {
         return datadenascimento;
     }
 
-    public void setDatadenascimento(int datadenascimento) {
+    public void setDatadenascimento(LocalDate datadenascimento) {
         this.datadenascimento = datadenascimento;
     }
 
@@ -91,8 +110,9 @@ public class Client {
         this.profissao = profissao;
     }
 
-    public void alterarnome(String novonome){
-        this.nome = novonome;
+    public void alterarnome(String novoprimeironome, String novosegundonome){
+        this.primeironome = novoprimeironome;
+        this.segundonome = novosegundonome;
     }
     public void alterarsenha(int novasenha){
         this.senha = novasenha;
