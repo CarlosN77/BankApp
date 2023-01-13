@@ -19,6 +19,7 @@ public class Database {
         clients.add(newClient);
     }
 
+
     public static List<Client> getClient() {
         return clients;
     }

@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Menu {
 
     static Database database = Database.getInstance();
-    static Conta conta2 = new Conta(2, "Joao", "andre", 50);
+
 
     public static void start() {
         Scanner sc = new Scanner(System.in);
@@ -46,18 +46,18 @@ public class Menu {
                 System.out.println("Insira o NIF:");
                 int nif = sc.nextInt();
                 System.out.println("Insira a senha:");
-                int password = sc.nextInt();
+                int senha = sc.nextInt();
 
-                boolean found = false;
-                for (Client c : Database.getClient()) {
-                    if (c.getNif() == nif && c.getSenha() == password) {
+                boolean clientfound = false;
+                for (Client c : database.getClient()) {
+                    if (c.getNif() == nif && c.getSenha() == senha) {
                         System.out.println("Bem vindo, " + c.getPrimeironome() + c.getSegundonome());
+                        clientfound = true;
                         optionsAfterLogin(c);
-                        found = true;
                         break;
                     }
                 }
-                if (!found) {
+                if (!clientfound) {
                     System.out.println("Passord ou NIF invalido");
                 }
                 break;
@@ -69,7 +69,7 @@ public class Menu {
                 System.out.println("Insira o seu NIF:");
                 nif = sc.nextInt();
                 System.out.println("Escolha uma password:");
-                int senha = sc.nextInt();
+                senha = sc.nextInt();
                 System.out.println("Qual a sua data de nascimento (YYYY-MM-DD): ");
                 String dataNascimentoString = sc.next();
                 String[] dataNascimentoArray = dataNascimentoString.split("-");
@@ -87,7 +87,7 @@ public class Menu {
                 String profissao = sc.next();
                 // code to create account
                 Client newClient = new Client(nif, senha, primeironome, segundonome, dataNascimento, telefone, telemovel, email, profissao);
-                Database.addClient(newClient);
+                database.addClient(newClient);
                 System.out.println("Conta criada com sucesso!");
                 break;
         }
@@ -153,7 +153,7 @@ public class Menu {
             } else if (option == 3) {
                 System.out.println("Insira o numero da conta para a qual quer transferir: ");
                 int accountNum = sc.nextInt();
-                int accountToTransfer = conta2.getNumerodeconta(accountNum);
+                Conta accountToTransfer = new Conta(accountNum);
                 System.out.println("Qual o valor a transferir: ");
                 double amount = sc.nextDouble();
                 selectedAccount.transferir(accountToTransfer, amount);
