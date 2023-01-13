@@ -37,6 +37,7 @@ public class Menu {
         Scanner sc = new Scanner(System.in);
         System.out.println("1. Log in");
         System.out.println("2. Sign up");
+        System.out.println("3. Sair");
         System.out.print("Escolha uma opção: ");
         int option = sc.nextInt();
 
@@ -47,13 +48,19 @@ public class Menu {
                 System.out.println("Insira a senha:");
                 int password = sc.nextInt();
 
-                for (Client c : database.getClient()) {
+                boolean found = false;
+                for (Client c : Database.getClient()) {
                     if (c.getNif() == nif && c.getSenha() == password) {
                         System.out.println("Bem vindo, " + c.getPrimeironome() + c.getSegundonome());
                         optionsAfterLogin(c);
+                        found = true;
+                        break;
                     }
+                }
+                if (!found) {
                     System.out.println("Passord ou NIF invalido");
                 }
+                break;
             case 2:
                 System.out.println("Insira o primeiro nome:");
                 String primeironome = sc.next();
@@ -79,14 +86,12 @@ public class Menu {
                 System.out.println("Qual a sua profissão:");
                 String profissao = sc.next();
                 // code to create account
-                Client newClient = new Client(nif,senha,primeironome,segundonome,dataNascimento,telefone,telemovel,email,profissao);
-                database.addClient(newClient);
+                Client newClient = new Client(nif, senha, primeironome, segundonome, dataNascimento, telefone, telemovel, email, profissao);
+                Database.addClient(newClient);
                 System.out.println("Conta criada com sucesso!");
                 break;
-            default:
-                System.out.println("Escolha uma opção valida.");
-                break;
         }
+
     }
 
 
@@ -117,6 +122,7 @@ public class Menu {
                 break;
             } else {
                 System.out.println("Opção inválida. Escolha uma opção válida.");
+                break;
             }
         }
     }
