@@ -35,41 +35,22 @@ public class Menu {
 
     public static void logIn() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("1. Log in");
-        System.out.println("2. Sign up");
+        System.out.println("1. Sign in");
+        System.out.println("2. Log in");
         System.out.println("3. Sair");
         System.out.print("Escolha uma opção: ");
         int option = sc.nextInt();
 
         switch (option) {
             case 1:
-                System.out.println("Insira o NIF:");
-                int nif = sc.nextInt();
-                System.out.println("Insira a senha:");
-                int senha = sc.nextInt();
-
-                boolean clientfound = false;
-                for (Client c : database.getClient()) {
-                    if (c.getNif() == nif && c.getSenha() == senha) {
-                        System.out.println("Bem vindo, " + c.getPrimeironome() + c.getSegundonome());
-                        clientfound = true;
-                        optionsAfterLogin(c);
-                        break;
-                    }
-                }
-                if (!clientfound) {
-                    System.out.println("Passord ou NIF invalido");
-                }
-                break;
-            case 2:
                 System.out.println("Insira o primeiro nome:");
                 String primeironome = sc.next();
                 System.out.println("Insira o segundo nome:");
                 String segundonome = sc.next();
                 System.out.println("Insira o seu NIF:");
-                nif = sc.nextInt();
+                String nif = sc.next();
                 System.out.println("Escolha uma password:");
-                senha = sc.nextInt();
+                String senha = sc.next();
                 System.out.println("Qual a sua data de nascimento (YYYY-MM-DD): ");
                 String dataNascimentoString = sc.next();
                 String[] dataNascimentoArray = dataNascimentoString.split("-");
@@ -86,10 +67,36 @@ public class Menu {
                 System.out.println("Qual a sua profissão:");
                 String profissao = sc.next();
                 // code to create account
-                Client newClient = new Client(nif, senha, primeironome, segundonome, dataNascimento, telefone, telemovel, email, profissao);
+                Conta newConta = null;
+                Client newClient = new Client(nif, senha, primeironome, segundonome, newConta, dataNascimento, telefone, telemovel, email, profissao);
                 database.addClient(newClient);
+                newConta = new Conta(Accountnumbergenerator.generateAccountNumber());
+                newClient.setConta(newConta);
                 System.out.println("Conta criada com sucesso!");
                 break;
+
+            case 2:
+                System.out.println("Insira o NIF:");
+                nif = sc.next();
+                System.out.println("Insira a senha:");
+                senha = sc.next();
+
+                boolean clientfound = false;
+                for (Client c : database.getClient()) {
+                    if (nif.equals(c.getNif()) && senha.equals(c.getSenha())) {
+                        System.out.println("Bem vindo, " + c.getPrimeironome() + " " + c.getSegundonome());
+                        clientfound = true;
+                        optionsAfterLogin(c);
+
+                    }
+                }
+                if (!clientfound) {
+                System.out.println("Passord ou NIF invalido");
+            }
+            break;
+
+
+
         }
 
     }

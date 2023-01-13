@@ -2,8 +2,8 @@ import java.time.LocalDate;
 
 public class Client {
 
-    private int nif;
-    private int senha;
+    private String nif;
+    private String senha;
     private String primeironome;
     private String segundonome;
     private Conta conta;
@@ -14,7 +14,7 @@ public class Client {
     private String profissao;
 
 
-    public Client(int nif, int senha, String primeironome,String segundonome,Conta conta, LocalDate datadenascimento, int telefone, int telemovel, String email, String profissao) {
+    public Client(String nif, String senha, String primeironome, String segundonome, Conta conta, LocalDate datadenascimento, int telefone, int telemovel, String email, String profissao) {
         this.nif = nif;
         this.senha = senha;
         this.primeironome = primeironome;
@@ -28,25 +28,23 @@ public class Client {
     }
 
 
-    public Client(int nif, int senha, String primeironome, String segundonome, LocalDate datadenascimento, int telefone, int telemovel, String email, String profissao) {
-    }
 
-    public Client(int nif, int senha, String carlos, String neves, Conta conta1, int i, int telefone, int telemovel, String email, String homemDaObra) {
-    }
 
-    public int getNif() {
+
+
+    public String getNif() {
         return nif;
     }
 
-    public void setNif(int nif) {
+    public void setNif(String nif) {
         this.nif = nif;
     }
 
-    public int getSenha() {
+    public String getSenha() {
         return senha;
     }
 
-    public void setSenha(int senha) {
+    public void setSenha(String senha) {
         this.senha = senha;
     }
 
@@ -60,6 +58,10 @@ public class Client {
 
     public Conta getConta() {
         return conta;
+    }
+
+    public void setConta(Conta conta) {
+        this.conta = conta;
     }
 
     public void setPrimeironome(String primeironome) {
@@ -114,7 +116,7 @@ public class Client {
         this.primeironome = novoprimeironome;
         this.segundonome = novosegundonome;
     }
-    public void alterarsenha(int novasenha){
+    public void alterarsenha(String novasenha){
         this.senha = novasenha;
     }
     public void alterartelefone(int novotelefone){

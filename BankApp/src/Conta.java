@@ -1,11 +1,11 @@
 public class Conta {
 
     public int numerodeconta;
-    private String titularprincipal;
-    private String titularsecundario;
+    private Client titularprincipal;
+    private Client titularsecundario;
     public double saldo;
 
-    public Conta(int numerodeconta, String titularprincipal, String titularsecundario, double saldo) {
+    public Conta(int numerodeconta, Client titularprincipal, Client titularsecundario, double saldo) {
         this.numerodeconta = numerodeconta;
         this.titularprincipal = titularprincipal;
         this.titularsecundario = titularsecundario;
@@ -24,19 +24,19 @@ public class Conta {
         this.numerodeconta = numerodeconta;
     }
 
-    public String getTitularprincipal() {
+    public Client getTitularprincipal() {
         return titularprincipal;
     }
 
-    public void setTitularprincipal(String titularprincipal) {
+    public void setTitularprincipal(Client titularprincipal) {
         this.titularprincipal = titularprincipal;
     }
 
-    public String getTitularsecundario() {
+    public Client getTitularsecundario() {
         return titularsecundario;
     }
 
-    public void setTitularsecundario(String titularsecundario) {
+    public void setTitularsecundario(Client titularsecundario) {
         this.titularsecundario = titularsecundario;
     }
 
