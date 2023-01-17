@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -33,6 +34,9 @@ public class Menu {
         }
     }
 
+    private static void ATMVirtual() {
+    }
+
     public static void logIn() {
         Scanner sc = new Scanner(System.in);
         System.out.println("1. Sign in");
@@ -58,9 +62,15 @@ public class Menu {
                 int mes = Integer.parseInt(dataNascimentoArray[1]);
                 int dia = Integer.parseInt(dataNascimentoArray[2]);
                 LocalDate dataNascimento = LocalDate.of(ano, mes, dia);
+                LocalDate today = LocalDate.now();
+                Period age = Period.between(dataNascimento, today);
+                if (age.getYears() < 18) {
+                    System.out.println("O cliente deve ter mais de 18 anos.");
+                    break;
+                }
                 System.out.println("Insira o seu numero de telefone:");
                 int telefone = sc.nextInt();
-                System.out.println("Insira o seu numero de telefone:");
+                System.out.println("Insira o seu numero de telemovel:");
                 int telemovel = sc.nextInt();
                 System.out.println("Insira o seu email:");
                 String email = sc.next();
@@ -70,7 +80,7 @@ public class Menu {
                 Conta newConta = null;
                 Client newClient = new Client(nif, senha, primeironome, segundonome, newConta, dataNascimento, telefone, telemovel, email, profissao);
                 database.addClient(newClient);
-                newConta = new Conta(Accountnumbergenerator.generateAccountNumber());
+                newConta = new Conta(Accountnumbergenerator.generateAccountNumber(), newClient, 50.00);
                 newClient.setConta(newConta);
                 System.out.println("Conta criada com sucesso!");
                 break;
@@ -91,10 +101,9 @@ public class Menu {
                     }
                 }
                 if (!clientfound) {
-                System.out.println("Passord ou NIF invalido");
-            }
-            break;
-
+                    System.out.println("Passord ou NIF invalido");
+                }
+                break;
 
 
         }
@@ -102,13 +111,12 @@ public class Menu {
     }
 
 
-
-
     public static void optionsAfterLogin(Client loggedInClient) {
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("1. Selecionar conta");
-            System.out.println("2. Sair");
+            System.out.println("2. Ver informações da conta");
+            System.out.println("3. Sair");
             System.out.print("Escolha uma opção: ");
 
             int option = sc.nextInt();
@@ -125,6 +133,16 @@ public class Menu {
                 Conta selectedAccount = contas.get(accountOption - 1);
                 accountOptions(selectedAccount);
             } else if (option == 2) {
+                // code to view personal information
+                System.out.println("Nome: " + loggedInClient.getPrimeironome() + " " + loggedInClient.getSegundonome());
+                System.out.println("NIF: " + loggedInClient.getNif());
+                System.out.println("Data de nascimento: " + loggedInClient.getDatadenascimento());
+                System.out.println("Numero de conta: " + loggedInClient.getConta().getNumerodeconta());
+                System.out.println("Telefone: " + loggedInClient.getTelefone());
+                System.out.println("Telemóvel: " + loggedInClient.getTelemovel());
+                System.out.println("Email: " + loggedInClient.getEmail());
+                System.out.println("Profissão: " + loggedInClient.getProfissao());
+            } else if (option == 3) {
                 System.out.println("Saindo do menu...");
                 break;
             } else {
@@ -138,45 +156,52 @@ public class Menu {
     public static void accountOptions(Conta selectedAccount) {
         Scanner sc = new Scanner(System.in);
         while (true) {
-            System.out.println("1. Depositar");
-            System.out.println("2. Levantar");
-            System.out.println("3. Transferir");
-            System.out.println("4. Sair");
+            System.out.println("1. Ver saldo");
+            System.out.println("2. Depositar");
+            System.out.println("3. Levantar");
+            System.out.println("4. Transferir");
+            System.out.println("5. Sair");
             System.out.print("Escolha uma opção: ");
 
             int option = sc.nextInt();
             if (option == 1) {
-                // code to deposit
-                System.out.println("Quanto quer depositar: ");
-                double amount = sc.nextDouble();
-                selectedAccount.deposito(amount);
-                System.out.println("Novo saldo: " + selectedAccount.getSaldo());
-            } else if (option == 2) {
-                // code to withdraw
-                System.out.println("Quanto quer levantar: ");
-                double amount = sc.nextDouble();
-                selectedAccount.levantar(amount);
-                System.out.println("Novo saldo: " + selectedAccount.getSaldo());
-            } else if (option == 3) {
-                System.out.println("Insira o numero da conta para a qual quer transferir: ");
-                int accountNum = sc.nextInt();
-                Conta accountToTransfer = new Conta(accountNum);
-                System.out.println("Qual o valor a transferir: ");
-                double amount = sc.nextDouble();
-                selectedAccount.transferir(accountToTransfer, amount);
-                selectedAccount.setSaldo(selectedAccount.getSaldo() - amount);
-                System.out.println("Novo saldo: " + selectedAccount.getSaldo());
-            } else if (option == 4) {
-                System.out.println("Saindo do menu...");
-                break;
+                System.out.println("Saldo: " + selectedAccount.getSaldo());
             }
+                if (option == 2) {
+                    // code to deposit
+                    System.out.println("Quanto quer depositar: ");
+                    double amount = sc.nextDouble();
+                    selectedAccount.deposito(amount);
+                    System.out.println("Novo saldo: " + selectedAccount.getSaldo());
+                } else if (option == 3) {
+                    // code to withdraw
+                    System.out.println("Quanto quer levantar: ");
+                    double amount = sc.nextDouble();
+                    selectedAccount.levantar(amount);
+                    System.out.println("Novo saldo: " + selectedAccount.getSaldo());
+                } else if (option == 4) {
+                    System.out.println("Insira o numero da conta para a qual quer transferir: ");
+                    int accountNum = sc.nextInt();
+                    Conta accountToGet = new Conta(accountNum);
+                    Conta accountToTransfer = new Conta(accountNum);
+
+                    System.out.println("Qual o valor a transferir: ");
+                    double amount = sc.nextDouble();
+                    selectedAccount.transferir(accountToTransfer,accountToGet, amount);
+                    selectedAccount.setSaldo(selectedAccount.getSaldo() - amount);
+                    accountToGet.setSaldo(accountToGet.getSaldo() + amount);
+                    System.out.println("Novo saldo: " + selectedAccount.getSaldo());
+                } else if (option == 5) {
+                    System.out.println("Saindo do menu...");
+                    break;
+                }
 
 
+            }
         }
+
+
+
     }
 
-    public static void ATMVirtual() {
-        // code to use virtual ATM
-    }
-}
 

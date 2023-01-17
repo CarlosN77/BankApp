@@ -5,10 +5,9 @@ public class Conta {
     private Client titularsecundario;
     public double saldo;
 
-    public Conta(int numerodeconta, Client titularprincipal, Client titularsecundario, double saldo) {
+    public Conta(int numerodeconta, Client titularprincipal, double saldo) {
         this.numerodeconta = numerodeconta;
         this.titularprincipal = titularprincipal;
-        this.titularsecundario = titularsecundario;
         this.saldo = saldo;
     }
 
@@ -16,7 +15,7 @@ public class Conta {
     }
 
 
-    public int getNumerodeconta(int accountNum) {
+    public int getNumerodeconta() {
         return numerodeconta;
     }
 
@@ -63,10 +62,16 @@ public class Conta {
         }
     }
 
-    public void transferir(Conta contaDestino, double quantia) {
+    public void transferir(Conta contaDestino,Conta contaemissora, double quantia) {
         if(quantia > 0 && quantia <= saldo){
-            this.saldo -= quantia;
-            contaDestino.saldo += quantia;
+            //this.saldo -= quantia;
+            Double saldoAtual = contaemissora.getSaldo();
+            contaemissora.setSaldo(saldoAtual - quantia);
+
+            Double saldoDestino = contaDestino.getSaldo();
+            contaDestino.setSaldo(saldoDestino + quantia);
+
+            //contaDestino.saldo += quantia;
         } else{
             System.out.println("Impossible to transfer, insufficient funds.");
         }
